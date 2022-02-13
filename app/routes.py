@@ -83,14 +83,15 @@ def emitents():
 @app.route('/stocks', methods=['GET', 'POST'])
 @login_required
 def stocks():
+
+    all_stocks = Stock.get_all_stocks()
+
     if session['role'] == 'admin':
 
         add_stock_form = AddStockForm()
         delete_stock_form = DeleteStockForm()
         choices = EmitentOfStock.get_all_emitents()
         add_stock_form.select_emitent.choices = [i.name_of_emitent for i in choices]
-
-        all_stocks = Stock.get_all_stocks()
 
         if add_stock_form.submit_add.data:
 
