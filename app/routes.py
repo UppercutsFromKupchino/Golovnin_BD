@@ -75,6 +75,10 @@ def emitents():
 
         return render_template("emitents.html", list_of_emitents=list_of_emitents, add_emitent_form=add_emitent_form)
 
+    if session['role'] == 'user':
+
+        return render_template("emitents.html", list_of_emitents=list_of_emitents)
+
 
 @app.route('/stocks', methods=['GET', 'POST'])
 @login_required
