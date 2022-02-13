@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Акции</title>
+</head>
+<body>
+    <div class="cap-links">
+        <a href="{{ url_for('index') }}">Домашняя страница</a>
+        <a href="{{ url_for('logout') }}">Выйти из системы</a>
+        <a href="{{ url_for('emitents') }}">Эмитенты</a>
+    </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+     <ul>
+         {% for message in messages %}
+         <li>{{ message }}</li>
+         {% endfor %}
+     </ul>
+    {% endif %}
+    {% endwith %}
+    {% if session['role'] == 'admin' %}
+    <form class="add-stock-form" action="{{ url_for('stocks') }}" method="post">
+        {{ add_stock_form.hidden_tag() }}
+        {{ add_stock_form.select_emitent() }}<br>
+        {{ add_stock_form.price(placeholder_="Цена") }}<br>
+        {{ add_stock_form.ticker(placeholder_="Тикер") }}<br>
+        {{ add_stock_form.pe(placeholder_="p/e") }}<br>
+        {{ add_stock_form.yield_field(placeholder_="Доходность в процентах") }}<br>
+        {{ add_stock_form.submit_add() }}<br>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Эмитент акции</th>
+                <th scope="col">Цена акции</th>
+                <th scope="col">Тикер акции</th>
+                <th scope="col">p/e акции</th>
+                <th scope="col">Доходность акции</th>
+                <th scope="col">Удалить акцию</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in all_stocks %}
+            <tr>
+                <td>{{ stock.EmitentOfStock.name_of_emitent }}</td>
+                <td>{{ stock.Stock.price_of_stock }}</td>
+                <td>{{ stock.Stock.ticker }}</td>
+                <td>{{ stock.Stock.pe }}</td>
+                <td>{{ stock.Stock._yield }}</td>
+                <td>
+                    <form class="delete-stock-form" action="{{ url_for('stocks') }}" method="post">
+                        {{ delete_stock_form.id_of_stock(value=stock.Stock.id_of_stock) }}
+                        {{ delete_stock_form.submit_delete() }}
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    {% if session['role'] == 'user' %}
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Эмитент акции</th>
+                <th scope="col">Цена акции</th>
+                <th scope="col">Тикер акции</th>
+                <th scope="col">p/e акции</th>
+                <th scope="col">Доходность акции</th>
+                <th scope="col">Добавить акции в портфель</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in all_stocks %}
+            <tr>
+                <td>{{ stock.EmitentOfStock.name_of_emitent }}</td>
+                <td>{{ stock.Stock.price_of_stock }}</td>
+                <td>{{ stock.Stock.ticker }}</td>
+                <td>{{ stock.Stock.pe }}</td>
+                <td>{{ stock.Stock._yield }}</td>
+                <td>
+                    <form class="buy-stock-form" action="{{ url_for('stocks') }}" method="post">
+                        {{ buy_stock_form.id_of_stock_buy(value=stock.Stock.id_of_stock) }}
+                        {{ buy_stock_form.quantity(placeholder_="Количество акций") }}
+                        {{ buy_stock_form.submit_buy() }}
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</body>
+</html>

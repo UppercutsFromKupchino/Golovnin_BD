@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+</head>
+<body>
+    <div class="cap-links">
+        <a href="{{ url_for('index') }}">Домашняя страница</a>
+    </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+     <ul>
+         {% for message in messages %}
+         <li>{{ message }}</li>
+         {% endfor %}
+     </ul>
+    {% endif %}
+    {% endwith %}
+    <form class="register-form" action="{{ url_for('register') }}" method="post">
+        {{ register_form.hidden_tag() }}
+        {{ register_form.login(placeholder_="Логин") }}<br>
+        {{ register_form.password(placeholder_="Пароль") }}<br>
+        {{ register_form.fio(placeholder_="ФИО") }}<br>
+        {{ register_form.select_role() }}<br>
+        {{ register_form.submit() }}<br>
+    </form>
+</body>
+</html>

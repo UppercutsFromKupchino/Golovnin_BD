@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Портфель</title>
+</head>
+<body>
+    <div class="cap-links">
+        <a href="{{ url_for('index') }}">Домашняя страница</a>
+        <a href="{{ url_for('logout') }}">Выйти из системы</a>
+        <a href="{{ url_for('emitents') }}">Эмитенты</a>
+    </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+     <ul>
+         {% for message in messages %}
+         <li>{{ message }}</li>
+         {% endfor %}
+     </ul>
+    {% endif %}
+    {% endwith %}
+    {% if session['role'] == 'user' %}
+        <table>
+            <thead>
+                <tr>
+                <th scope="col">Эмитент акции</th>
+                <th scope="col">Цена акции</th>
+                <th scope="col">Тикер акции</th>
+                <th scope="col">p/e акции</th>
+                <th scope="col">Доходность акции</th>
+                <th scope="col">Дата приобретения акции</th>
+                <th scope="col">Количество приобретенных акций</th>
+                <th scope="col">Прибыль</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in stocks_of_user %}
+                {% for j in range(stocks_of_user_len) %}
+                <tr>
+                    <td>{{ i.EmitentOfStock.name_of_emitent }}</td>
+                    <td>{{ i.Stock.price_of_stock }}</td>
+                    <td>{{ i.Stock.ticker }}</td>
+                    <td>{{ i.Stock.pe }}</td>
+                    <td>{{ i.Stock._yield }}</td>
+                    <td>{{ i.StockBought.datetime_of_stock }}</td>
+                    <td>{{ i.StockBought.quantity_of_stocks }}</td>
+                    <td>{{ income_list[j] }}</td>
+                </tr>
+                {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% elif session['role'] == 'admin' %}
+        <p>Братишка, только пользователи могут создавать свой портфель:(</p>
+    {% endif %}
+</body>
+</html>

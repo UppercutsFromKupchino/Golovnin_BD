@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Эмитенты акций</title>
+</head>
+<body>
+    <div class="cap-links">
+        <a href="{{ url_for('index') }}">Домашняя страница</a>
+    </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+     <ul>
+         {% for message in messages %}
+         <li>{{ message }}</li>
+         {% endfor %}
+     </ul>
+    {% endif %}
+    {% endwith %}
+    {% if session['role'] == 'admin' %}
+    <form class="add-emitent-form" action="{{ url_for('emitents') }}" method="post">
+        {{ add_emitent_form.name_of_emitent(placeholder_="Название эмитента") }}<br>
+        {{ add_emitent_form.submit() }}
+    </form>
+    {% endif %}
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Название эмитента</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in list_of_emitents %}
+            <tr>
+                <td>{{ i.name_of_emitent }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Домашняя страница</title>
+</head>
+<body>
+    <div class="cap-links">
+        {% if not current_user.is_authenticated %}
+        <a href="{{ url_for('login') }}">Login</a>
+        {% endif %}
+        <a href="{{ url_for('register') }}">Register</a>
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+        <a href="{{ url_for('emitents') }}">Эмитенты</a>
+        <a href="{{ url_for('stocks') }}">Акции</a>
+        {% if session['role'] == 'user' %}
+        <a href="{{ url_for('stocks_user') }}">Портфель</a>
+        {% endif %}
+        {% endif %}
+    </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+     <ul>
+         {% for message in messages %}
+         <li>{{ message }}</li>
+         {% endfor %}
+     </ul>
+    {% endif %}
+    {% endwith %}
+    {% if current_user.is_authenticated %}
+    <p>Это инвестиционный калькулятор by Pasha Golovninnn</p>
+    <p>Приветствую вас, чемпион!</p>
+    {% elif not current_user.is_authenticated %}
+    <p>Войдите в систему, чтобы рассчитать свою прибыль$$$</p>
+    {% endif %}
+</body>
+</html>
