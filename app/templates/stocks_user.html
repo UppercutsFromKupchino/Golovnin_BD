@@ -34,19 +34,17 @@
                 </tr>
             </thead>
             <tbody>
-                {% for i in stocks_of_user %}
-                {% for j in range(stocks_of_user_len) %}
+                {% for i in range(stocks_of_user_len) %}
                 <tr>
-                    <td>{{ i.EmitentOfStock.name_of_emitent }}</td>
-                    <td>{{ i.Stock.price_of_stock }}</td>
-                    <td>{{ i.Stock.ticker }}</td>
-                    <td>{{ i.Stock.pe }}</td>
-                    <td>{{ i.Stock._yield }}</td>
-                    <td>{{ i.StockBought.datetime_of_stock }}</td>
-                    <td>{{ i.StockBought.quantity_of_stocks }}</td>
-                    <td>{{ income_list[j] }}</td>
+                    <td>{{ stocks_of_user[i][0] }}</td>
+                    <td>{{ stocks_of_user[i][1] }}</td>
+                    <td>{{ stocks_of_user[i][2] }}</td>
+                    <td>{{ stocks_of_user[i][3] }}</td>
+                    <td>{{ stocks_of_user[i][4] }}</td>
+                    <td>{{ stocks_of_user[i][5] }}</td>
+                    <td>{{ stocks_of_user[i][6] }}</td>
+                    <td>{{ income_list[i] }}</td>
                 </tr>
-                {% endfor %}
                 {% endfor %}
             </tbody>
         </table>

@@ -164,7 +164,12 @@ class StockBought(db.Model):
             query = db.session.query(StockBought, Stock, EmitentOfStock)
             query = query.join(Stock, Stock.id_of_stock == StockBought.id_of_stock)
             query = query.join(EmitentOfStock, Stock.id_of_emitent == EmitentOfStock.id_of_emitent)
-            query = query.filter(StockBought.id_of_user == id_user).all()
+            query = query.with_entities(EmitentOfStock.name_of_emitent, Stock.price_of_stock, Stock.ticker, Stock.pe,
+                                        Stock._yield, StockBought.datetime_of_stock, StockBought.quantity_of_stocks)
+            query = query.filter(StockBought.id_of_user == id_user)
+            query = query.group_by(EmitentOfStock.name_of_emitent, Stock.price_of_stock, Stock.ticker, Stock.pe,
+                                        Stock._yield, StockBought.datetime_of_stock, StockBought.quantity_of_stocks)
+            query = query.all()
             return query
         except:
             flash('Ошибка взаимодействия с базой данных! Попробуйте позже!')

@@ -128,11 +128,13 @@ def stocks():
 def stocks_user():
 
     stocks_of_user = StockBought.get_stocks_of_user(current_user.get_id())
+    print(stocks_of_user)
+    print(stocks_of_user[0])
     stocks_of_user_len = len(stocks_of_user)
     income_list = []
     for i in range(stocks_of_user_len):
-        income = ((1 + (stocks_of_user[i][1]._yield / 100)) * stocks_of_user[i][1].price_of_stock) * \
-                 stocks_of_user[i][0].quantity_of_stocks
+        income = ((1 + (stocks_of_user[i][4] / 100)) * stocks_of_user[i][1]) * \
+                 stocks_of_user[i][6]
         income_list.append(income)
 
     return render_template("stocks_user.html", stocks_of_user=stocks_of_user, income_list=income_list,
